@@ -1,10 +1,7 @@
-# Sample Testing Application
+# Clean Architecture Application Template
 
-[![Build Status](https://travis-ci.org/arturbdr/sample-testing-project.svg?branch=master)](https://travis-ci.org/arturbdr/sample-testing-project)
-[![codecov](https://codecov.io/gh/arturbdr/sample-testing-project/branch/master/graph/badge.svg)](https://codecov.io/gh/arturbdr/sample-testing-project)
-[![sonarCloudBugs](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=bugs)](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=bugs)
-[![sonarCloudCodeSmell](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=code_smells)](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=code_smells)
-[![sonarCloudTechnicalDebit](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=sqale_index)](https://sonarcloud.io/api/project_badges/measure?project=com.example%3Asample-testing-project&metric=sqale_index)
+![Build Status](https://github.com/michaelrodas/sample-testing-project/workflows/Main%20workflow/badge.svg?branch=master&event=status)
+[![Coverage](https://sonarcloud.io/api/project_badges/measure?project=michaelrodas_sample-testing-project&metric=coverage)](https://sonarcloud.io/dashboard?id=michaelrodas_sample-testing-project)
 #### The purpose of this application is to show how to develop one application with:
 
 - Clean Architecture
@@ -20,19 +17,15 @@
 
 ### Rules to be applied for this application - Exercises
 This application should follow the rules: 
-1. A User must have more than 30 years
-2. A user cant be created without a name, age and CPF
-3. The username size must be at least 2 and start with letter Z.
-4. Given a valid user, it should be stored for latter use
+1. A Business mut have a telephone number
+2. A user can't be created without its basic data
+3. Given a valid user, it should be stored for latter use
 
 
 ### Rules to be applied for this application - more Exercises
-1. There should be a way to update a user
+1. There should be a way to update a business
 2. There can be more than one user with same CPF
-3. When updating an user, the same rules of creations applies.
-
-## What should I do if I have a doubt and is not clear here?
-- Ask :) Let's discuss and then improve this documentation together.
+3. When updating an business, the same rules of creations applies.
 
 #### Gateway Controller responsibilities:
 1. Must define the correct rest verb:<br/>
