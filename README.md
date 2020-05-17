@@ -1,6 +1,6 @@
 # Clean Architecture Application Template
 
-![Build Status](https://github.com/michaelrodas/sample-testing-project/workflows/Main%20workflow/badge.svg?branch=master&event=status)
+![Main workflow](https://github.com/michaelrodas/sample-testing-project/workflows/Main%20workflow/badge.svg?branch=master)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=michaelrodas_clean-arch-crud-template&metric=coverage)](https://sonarcloud.io/dashboard?id=michaelrodas_clean-arch-crud-template)
 #### The purpose of this application is to show how to develop one application with:
 
