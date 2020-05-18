@@ -40,8 +40,8 @@ This application should follow the rules:
 4. Must document with Swagger all the services (input, output and possible error codes)
 5. Must **NOT** have access to other gateways.
 6. Must be unit tested using JUnit, Mockito and MockMVC
-7. Depending of the exposed service, it may need to configure security
-8. May log (**beware for sensitive data**) the incoming payload
+7. Depending on the exposed service, it may need to configure security
+8. May log (**beware of sensitive data**) the incoming payload
 9. Must always convert the Domain object returned from the usecase execution to a new object (json/data contract)
 10. Always return one ResponseEntity wrapping the response object (json/data contract) along with the correct status code (200, 201, 404, 500 etc)
 11. Must define the consumed and produced data accepted (produces/consumes annotations)
