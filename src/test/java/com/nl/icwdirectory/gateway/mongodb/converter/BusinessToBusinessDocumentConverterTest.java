@@ -3,12 +3,13 @@ package com.nl.icwdirectory.gateway.mongodb.converter;
 import com.nl.icwdirectory.domain.Business;
 import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument;
 import com.nl.icwdirectory.gateway.mongodb.entity.BusinessDocument;
-import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.Collections;
 import java.util.List;
+
+import static org.assertj.core.api.BDDAssertions.then;
 
 public class BusinessToBusinessDocumentConverterTest {
 
@@ -21,7 +22,7 @@ public class BusinessToBusinessDocumentConverterTest {
 
     @Test
     public void shouldConvertBusinessToBusinessDocument() {
-        Business businessDocumentToConvert = Business.builder()
+        Business businessToConvert = Business.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .ownerLastName("Lucifer")
@@ -37,7 +38,8 @@ public class BusinessToBusinessDocumentConverterTest {
                 .tags(List.of("clothing", "kleren"))
                 .build();
 
-        BusinessDocument convertedUser = businessDocumentToBusinessConverter.convert(businessDocumentToConvert);
-        EqualsBuilder.reflectionEquals(businessDocumentToConvert, convertedUser);
+        BusinessDocument convertedBusinessDocument = businessDocumentToBusinessConverter.convert(businessToConvert);
+
+        then(convertedBusinessDocument).isEqualToComparingFieldByField(businessToConvert);
     }
 }

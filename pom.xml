@@ -48,7 +48,7 @@
             **/nl/icwdirectory/IcwDirectoryApplication.java,
             **/nl/icwdirectory/domain/**,
             **/nl/icwdirectory/gateway/http/model/**,
-            **/nl/icwdirectory/gateway/mongodb/entity.**
+            **/nl/icwdirectory/gateway/mongodb/entity/**
         </sonar.coverage.exclusions>
         <sonar.coverage.jacoco.xmlReportPaths>target/jacoco/jacoco-ut/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 

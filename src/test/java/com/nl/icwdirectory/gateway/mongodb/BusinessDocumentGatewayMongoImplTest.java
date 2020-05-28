@@ -53,6 +53,6 @@ public class BusinessDocumentGatewayMongoImplTest {
                 .build();
         Business result = businessGatewayMongoImpl.create(sampleTestingBusinessDocument);
 
-        then(result).isEqualToIgnoringGivenFields(sampleTestingBusinessDocument, "id");
+        then(result).isEqualToIgnoringGivenFields(sampleTestingBusinessDocument, "id").usingRecursiveComparison();
     }
 }
