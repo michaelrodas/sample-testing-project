@@ -1,8 +1,8 @@
 package com.nl.icwdirectory.gateway.http.converter;
 
-import com.nl.icwdirectory.domain.Address;
 import com.nl.icwdirectory.domain.Business;
-import com.nl.icwdirectory.gateway.http.json.CreateBusinessJson;
+import com.nl.icwdirectory.gateway.http.model.BusinessCreation;
+import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,22 +10,22 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-public class CreateBusinessJsonToBusinessTest {
+public class BusinessCreationToBusinessConverterTest {
 
-    private CreateBusinessJsonToBusiness createBusinessJsonToBusiness;
+    private BusinessCreationToBusinessConverter businessCreationToBusinessConverter;
 
     @Before
     public void setupTest() {
-        createBusinessJsonToBusiness = new CreateBusinessJsonToBusiness();
+        businessCreationToBusinessConverter = new BusinessCreationToBusinessConverter();
     }
 
     @Test
-    public void shouldConvertCreateUserJsonToUser() {
-        CreateBusinessJson businessToConvert = CreateBusinessJson.builder()
+    public void shouldConvertBusinessCreationToBusiness() {
+        BusinessCreation businessToConvert = BusinessCreation.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .ownerLastName("Lucifer")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .email("klerengekste@gmail.com")
@@ -37,7 +37,7 @@ public class CreateBusinessJsonToBusinessTest {
                 .tags(List.of("clothing", "kleren"))
                 .build();
 
-        Business result = createBusinessJsonToBusiness.convert(businessToConvert);
+        Business result = businessCreationToBusinessConverter.convert(businessToConvert);
         EqualsBuilder.reflectionEquals(businessToConvert, result);
     }
 }

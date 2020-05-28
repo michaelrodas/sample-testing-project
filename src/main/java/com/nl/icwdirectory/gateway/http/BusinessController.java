@@ -1,10 +1,8 @@
 package com.nl.icwdirectory.gateway.http;
 
+import com.nl.icwdirectory.gateway.http.converter.BusinessCreationToBusinessConverter;
 import com.nl.icwdirectory.domain.Business;
-import com.nl.icwdirectory.gateway.http.converter.BusinessToCreatedBusinessJson;
-import com.nl.icwdirectory.gateway.http.converter.CreateBusinessJsonToBusiness;
-import com.nl.icwdirectory.gateway.http.json.CreateBusinessJson;
-import com.nl.icwdirectory.gateway.http.json.CreatedBusinessJson;
+import com.nl.icwdirectory.gateway.http.model.BusinessCreation;
 import com.nl.icwdirectory.gateway.http.mapping.URLMapping;
 import com.nl.icwdirectory.usecase.CreateBusiness;
 import io.swagger.annotations.ApiOperation;
@@ -25,16 +23,13 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 @Slf4j
 public class BusinessController {
 
-    private final CreateBusinessJsonToBusiness createBusinessJsonToBusiness;
-    private final BusinessToCreatedBusinessJson businessToCreatedBusinessJson;
+    private final BusinessCreationToBusinessConverter businessCreationToBusinessConverter;
     private final CreateBusiness createBusiness;
 
     public BusinessController(
-            CreateBusinessJsonToBusiness createBusinessJsonToBusiness,
-            BusinessToCreatedBusinessJson businessToCreatedBusinessJson,
+            BusinessCreationToBusinessConverter businessCreationToBusinessConverter,
             CreateBusiness createBusiness) {
-        this.createBusinessJsonToBusiness = createBusinessJsonToBusiness;
-        this.businessToCreatedBusinessJson = businessToCreatedBusinessJson;
+        this.businessCreationToBusinessConverter = businessCreationToBusinessConverter;
         this.createBusiness = createBusiness;
     }
 
@@ -46,15 +41,13 @@ public class BusinessController {
     @PostMapping(value = URLMapping.CREATE_NEW_BUSINESS,
             produces = APPLICATION_JSON_VALUE,
             consumes = APPLICATION_JSON_VALUE)
-    public ResponseEntity<CreatedBusinessJson> createBusiness(
-            @RequestBody @Valid final CreateBusinessJson createBusinessJson) {
-        log.info("Creating user {}", createBusinessJson);
-        final Business businessToBeCreated = createBusinessJsonToBusiness.convert(createBusinessJson);
+    public ResponseEntity<Business> createBusiness(
+            @RequestBody @Valid final BusinessCreation businessCreation) {
+        log.info("Creating user {}", businessCreation);
+        final Business businessDocumentToBeCreated = businessCreationToBusinessConverter.convert(businessCreation);
 
-        final Business businessCreated = createBusiness.createBusiness(businessToBeCreated);
+        final Business businessCreated = createBusiness.createBusiness(businessDocumentToBeCreated);
 
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(businessToCreatedBusinessJson.convert(businessCreated));
+        return ResponseEntity.status(HttpStatus.CREATED).body(businessCreated);
     }
 }

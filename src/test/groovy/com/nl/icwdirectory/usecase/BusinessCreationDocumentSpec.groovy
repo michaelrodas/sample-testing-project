@@ -1,17 +1,17 @@
 package com.nl.icwdirectory.usecase
 
-import com.nl.icwdirectory.domain.Address
 import com.nl.icwdirectory.domain.Business
 import com.nl.icwdirectory.domain.exception.InvalidPhoneException
 import com.nl.icwdirectory.gateway.BusinessGateway
+import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument
 import spock.lang.Specification
 
-class CreateBusinessSpec extends Specification {
+class BusinessCreationDocumentSpec extends Specification {
     BusinessGateway businessGateway = Mock(BusinessGateway.class)
     CreateBusiness createBusiness
 
     def setup() {
-        createBusiness = new CreateBusiness(businessGateway)
+        createBusiness = new CreateBusinessImpl(businessGateway)
     }
 
     def "test create business"() {
@@ -21,7 +21,7 @@ class CreateBusinessSpec extends Specification {
                 .ownerFirstName("Satan")
                 .email("klerengekste@gmail.com")
                 .phone("0629795318")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .build()
@@ -35,7 +35,7 @@ class CreateBusinessSpec extends Specification {
                     .ownerFirstName("Satan")
                     .email("klerengekste@gmail.com")
                     .phone("0629795318")
-                    .address(Address.builder()
+                    .address(AddressDocument.builder()
                             .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                             .build())
                     .id(randomUUID)
@@ -73,7 +73,7 @@ class CreateBusinessSpec extends Specification {
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .email("klerengekste@gmail.com")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .build()
@@ -92,7 +92,7 @@ class CreateBusinessSpec extends Specification {
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .email("klerengekste@gmail.com")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .build()

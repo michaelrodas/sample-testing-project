@@ -1,23 +1,27 @@
-package com.nl.icwdirectory.gateway.http.json;
+package com.nl.icwdirectory.gateway.http.model;
 
-import com.nl.icwdirectory.domain.Address;
+import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument;
 import lombok.*;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Data
 @Builder
-public class CreatedBusinessJson {
+public class BusinessCreation {
 
-    private String id;
+    @NotNull
     private String name;
+    @NotNull
     private String ownerFirstName;
     private String ownerLastName;
-    private Address address;
+    private AddressDocument address;
+    @NotNull
     private String email;
     private String website;
+    @NotNull
     private String phone;
     private String logo;
     private List<String> images;

@@ -1,16 +1,16 @@
-package com.nl.icwdirectory.gateway.http.converter;
+package com.nl.icwdirectory.gateway.mongodb.converter;
 
+import com.nl.icwdirectory.gateway.mongodb.entity.BusinessDocument;
 import com.nl.icwdirectory.domain.Business;
-import com.nl.icwdirectory.gateway.http.json.CreatedBusinessJson;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;
 
 @Component
-public class BusinessToCreatedBusinessJson implements Converter<Business, CreatedBusinessJson> {
+public class BusinessDocumentToBusinessConverter implements Converter<BusinessDocument, Business> {
 
     @Override
-    public CreatedBusinessJson convert(final Business source) {
-        return CreatedBusinessJson.builder()
+    public Business convert(final BusinessDocument source) {
+        return Business.builder()
                 .id(source.getId())
                 .name(source.getName())
                 .ownerFirstName(source.getOwnerFirstName())

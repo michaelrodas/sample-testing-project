@@ -4,6 +4,6 @@ import com.nl.icwdirectory.domain.Business;
 
 public interface BusinessGateway {
 
-  Business create(final Business businessToBeCreated);
+    Business create(final Business businessDocumentToBeCreated);
 
 }

@@ -1,8 +1,8 @@
-package com.nl.icwdirectory.gateway.http.converter;
+package com.nl.icwdirectory.gateway.mongodb.converter;
 
-import com.nl.icwdirectory.domain.Address;
 import com.nl.icwdirectory.domain.Business;
-import com.nl.icwdirectory.gateway.http.json.CreatedBusinessJson;
+import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument;
+import com.nl.icwdirectory.gateway.mongodb.entity.BusinessDocument;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.junit.Before;
 import org.junit.Test;
@@ -10,22 +10,22 @@ import org.junit.Test;
 import java.util.Collections;
 import java.util.List;
 
-public class BusinessToCreatedBusinessJsonTest {
+public class BusinessDocumentToBusinessConverterTest {
 
-    private BusinessToCreatedBusinessJson businessToCreatedBusinessJson;
+    private BusinessDocumentToBusinessConverter businessDocumentToBusinessConverter;
 
     @Before
     public void setupTest() {
-        businessToCreatedBusinessJson = new BusinessToCreatedBusinessJson();
+        businessDocumentToBusinessConverter = new BusinessDocumentToBusinessConverter();
     }
 
     @Test
-    public void shouldConvertCreateUserJsonToUser() {
-        Business businessToConvert = Business.builder()
+    public void shouldConvertBusinessDocumentToBusiness() {
+        BusinessDocument businessDocumentToConvert = BusinessDocument.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .ownerLastName("Lucifer")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .email("klerengekste@gmail.com")
@@ -37,7 +37,7 @@ public class BusinessToCreatedBusinessJsonTest {
                 .tags(List.of("clothing", "kleren"))
                 .build();
 
-        CreatedBusinessJson convertedUser = businessToCreatedBusinessJson.convert(businessToConvert);
-        EqualsBuilder.reflectionEquals(businessToConvert, convertedUser);
+        Business convertedUser = businessDocumentToBusinessConverter.convert(businessDocumentToConvert);
+        EqualsBuilder.reflectionEquals(businessDocumentToConvert, convertedUser);
     }
 }

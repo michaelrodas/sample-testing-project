@@ -1,11 +1,12 @@
 package com.nl.icwdirectory.gateway.http;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.nl.icwdirectory.domain.Address;
 import com.nl.icwdirectory.domain.Business;
-import com.nl.icwdirectory.gateway.http.converter.BusinessToCreatedBusinessJson;
-import com.nl.icwdirectory.gateway.http.converter.CreateBusinessJsonToBusiness;
+import com.nl.icwdirectory.gateway.http.converter.BusinessCreationToBusinessConverter;
 import com.nl.icwdirectory.gateway.http.mapping.URLMapping;
+import com.nl.icwdirectory.gateway.http.model.BusinessCreation;
+import com.nl.icwdirectory.gateway.mongodb.entity.AddressDocument;
+import com.nl.icwdirectory.gateway.mongodb.entity.BusinessDocument;
 import com.nl.icwdirectory.usecase.CreateBusiness;
 import org.junit.Before;
 import org.junit.Test;
@@ -27,10 +28,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @RunWith(MockitoJUnitRunner.class)
-public class BusinessControllerTest {
+public class BusinessDocumentControllerTest {
 
-    private CreateBusinessJsonToBusiness createBusinessJsonToBusiness;
-    private BusinessToCreatedBusinessJson businessToCreatedBusinessJson;
+    private BusinessCreationToBusinessConverter businessCreationToBusinessConverter;
     private CreateBusiness createBusiness;
     private BusinessController businessController;
     private MockMvc mockMvc;
@@ -38,12 +38,10 @@ public class BusinessControllerTest {
 
     @Before
     public void setUp() {
-        createBusinessJsonToBusiness = mock(CreateBusinessJsonToBusiness.class);
-        businessToCreatedBusinessJson = mock(BusinessToCreatedBusinessJson.class);
+        businessCreationToBusinessConverter = mock(BusinessCreationToBusinessConverter.class);
         createBusiness = mock(CreateBusiness.class);
         businessController = new BusinessController(
-                createBusinessJsonToBusiness,
-                businessToCreatedBusinessJson,
+                businessCreationToBusinessConverter,
                 createBusiness);
         mockMvc = standaloneSetup(businessController).build();
         objectMapper = new ObjectMapper();
@@ -52,33 +50,43 @@ public class BusinessControllerTest {
     @Test
     public void shouldCreateNewUser() throws Exception {
         // GIVEN a business to be created
-        Business businessToBeCreated = Business.builder()
+        BusinessCreation creationBusiness = BusinessCreation.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .email("klerengekste@gmail.com")
                 .phone("0629795318")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .build();
-        Business createdBusiness = Business.builder()
+
+        Business convertedCreationBusiness = Business.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .email("klerengekste@gmail.com")
                 .phone("0629795318")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
+                        .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
+                        .build())
+                .build();
+
+        Business createdBusinessDocument = Business.builder()
+                .name("Granny's clothing")
+                .ownerFirstName("Satan")
+                .email("klerengekste@gmail.com")
+                .phone("0629795318")
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .id(UUID.randomUUID().toString())
                 .build();
 
-        when(createBusinessJsonToBusiness.convert(any())).thenCallRealMethod();
-        when(businessToCreatedBusinessJson.convert(any())).thenCallRealMethod();
-        when(createBusiness.createBusiness(any())).thenReturn(createdBusiness);
+        when(businessCreationToBusinessConverter.convert(creationBusiness)).thenReturn(convertedCreationBusiness);
+        when(createBusiness.createBusiness(convertedCreationBusiness)).thenReturn(createdBusinessDocument);
 
         // WHEN I try to consume the endpoint to create a new user
         MvcResult mvcResult = mockMvc.perform(MockMvcRequestBuilders.post(URLMapping.CREATE_NEW_BUSINESS)
-                .content(objectMapper.writeValueAsString(businessToBeCreated))
+                .content(objectMapper.writeValueAsString(creationBusiness))
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isCreated())
                 .andReturn();
@@ -87,20 +95,19 @@ public class BusinessControllerTest {
         String responseBodyAsString = mvcResult.getResponse().getContentAsString();
         Business businessFromResponse = objectMapper.readValue(responseBodyAsString, Business.class);
 
-        assertEquals(createdBusiness, businessFromResponse);
+        assertEquals(createdBusinessDocument, businessFromResponse);
         verify(createBusiness, times(1)).createBusiness(any());
-        verify(createBusinessJsonToBusiness, times(1)).convert(any());
-        verify(businessToCreatedBusinessJson, times(1)).convert(any());
+        verify(businessCreationToBusinessConverter).convert(creationBusiness);
     }
 
     @Test
     public void shouldReturnBadRequestDueToMissingParameters() throws Exception {
         // GIVEN a user to be created
-        Business businessToBeCreated = Business.builder()
+        BusinessDocument businessDocumentToBeCreated = BusinessDocument.builder()
                 .name("Granny's clothing")
                 .ownerFirstName("Satan")
                 .ownerLastName("Lucifer")
-                .address(Address.builder()
+                .address(AddressDocument.builder()
                         .city("Eindhoven").postCode("5618ZW").street("Bouteslaan 123")
                         .build())
                 .email("klerengekste@gmail.com")
@@ -113,14 +120,13 @@ public class BusinessControllerTest {
 
         // WHEN I try to consume the endpoint to create a new user
         mockMvc.perform(post(URLMapping.CREATE_NEW_BUSINESS)
-                .content(objectMapper.writeValueAsString(businessToBeCreated))
+                .content(objectMapper.writeValueAsString(businessDocumentToBeCreated))
                 .contentType(APPLICATION_JSON))
                 .andExpect(status().isBadRequest())
                 .andReturn();
 
         verify(createBusiness, times(0)).createBusiness(any());
-        verify(createBusinessJsonToBusiness, times(0)).convert(any());
-        verify(businessToCreatedBusinessJson, times(0)).convert(any());
+        verify(businessCreationToBusinessConverter, times(0)).convert(any());
     }
 
     @Test

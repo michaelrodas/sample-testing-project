@@ -1,4 +1,4 @@
-package com.nl.icwdirectory.domain;
+package com.nl.icwdirectory.gateway.mongodb.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Builder
 @Data
-public class Address {
+public class AddressDocument {
 
     private String street;
     private String postCode;
